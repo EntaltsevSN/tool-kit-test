@@ -1,5 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
 $gap: 24px;
+$padding_small: 12px;
+$padding_large: $padding_small * 2;
 $maxWidth: 720px;
+$purple_color: #7361ab;
+$border_radius: 4px;
+$gray_color: #808284;
+
+body {
+  font-family: 'Rubik', sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+input {
+  &,
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    outline: 0;
+  }
+}
+
+a {
+  color: $purple_color;
+  text-decoration: underline;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
 
 .layout {
   display: flex;
@@ -9,6 +52,7 @@ $maxWidth: 720px;
   align-items: center;
 }
 
+.body,
 .header,
 .main,
 .footer {
@@ -20,8 +64,187 @@ $maxWidth: 720px;
   display: inline-flex;
   gap: $gap;
   flex-direction: column;
+  padding: $padding_large 0;
+  border-bottom: 1px solid $purple_color;
 
   &__title {
     display: inline-block;
+    color: $purple_color;
+    
+    * {
+      text-decoration: none;
+    }
   }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: calc($gap / 1.5);
+
+  &__input {
+    padding: $padding_small $padding_large;
+    border-radius: $border_radius;
+    border: 2px solid transparentize($purple_color, .5);
+
+    &:hover,
+    &:focus {
+      border-color: $purple_color;
+    }
+  }
+
+  &__helper {
+    background-color: transparentize($purple_color, .9);
+    padding: $padding_small $padding_large;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc($gap / 3);
+    border-radius: $border_radius;
+
+    a {
+      &:not(:last-of-type)::after {
+        content: ',';
+      }
+    }
+  }
+}
+
+.repositories {
+  display: flex;
+  flex-flow: column;
+  gap: $gap;
+  padding: 0;
+  
+  &__item {
+    position: relative;
+    padding: $padding_small $padding_large;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap;
+    border: 2px solid transparentize($purple_color, .8);
+    border-radius: $border_radius;
+
+    &:has(a:hover) {
+      border-color: $purple_color;
+    }
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+    gap: calc($gap / 2);
+  }
+
+  &__name {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__description {
+    color: $gray_color;
+  }
+
+  &__stars {
+    display: flex;
+    align-items: center;
+    gap: calc($gap / 3);
+  }
+
+  &__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.pagination {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: calc($gap / 2);
+  padding: 0;
+  list-style: none;
+
+  &__link {
+    display: flex;
+    width: calc($padding_large * 1.5);
+    height: calc($padding_large * 1.5);
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+    border-radius: $border_radius;
+
+    &:hover {
+      background-color: #f0f2f4;
+    }
+  }
+
+  &__item {
+    &--active {
+      * {
+        &,
+        &:hover {
+          background-color: $purple_color;
+          color: #fff;
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}
+
+.repository {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+
+  &__header,
+  &__stars,
+  &__languages {
+    display: flex;
+    flex-flow: row wrap;
+    gap: calc($gap / 2);
+    align-items: center;
+  }
+
+  &__avatar {
+    width: auto;
+    height: calc($padding_large * 1.5);
+    border-radius: 50%;
+  }
+
+  &__description {
+    color: $gray_color;
+  }
+
+  &__language {
+    background-color: transparentize($purple_color, .9);
+    padding: $padding_small;
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc($gap / 3);
+    border-radius: $border_radius;
+  }
+}
+
+.page404 {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+
+  &__title {
+    font-size: 2rem;
+  }
+}
+
+.footer {
+  background-color: transparentize($purple_color, .9);
+  padding: $padding_large;
+  border-radius: $border_radius;
+  margin-bottom: $padding_large;
 }

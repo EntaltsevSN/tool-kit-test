@@ -1,6 +1,6 @@
 const Footer = () => {
   return <footer className="footer">
-    Footer
+    Проект разработан как тестовое задание для компании Tool-kit!
   </footer>
 };
 
