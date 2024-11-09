@@ -1,0 +1,27 @@
+$gap: 24px;
+$maxWidth: 720px;
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  width: 100%;
+  align-items: center;
+}
+
+.header,
+.main,
+.footer {
+  width: 100%;
+  max-width: $maxWidth;
+}
+
+.header {
+  display: inline-flex;
+  gap: $gap;
+  flex-direction: column;
+
+  &__title {
+    display: inline-block;
+  }
+}
