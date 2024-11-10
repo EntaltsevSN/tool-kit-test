@@ -250,3 +250,45 @@ a {
   border-radius: $border_radius;
   margin-bottom: $padding_large;
 }
+
+.token-form {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+  padding: $padding_large;
+  border: 2px solid $purple_color;
+  border-radius: $border_radius;
+  align-items: center;
+
+  &__label {
+    font-weight: 600;
+  }
+
+  &__input {
+    padding: $padding_small;
+    width: 100%;
+    padding: $padding_small $padding_large;
+    border-radius: $border_radius;
+    border: 2px solid transparentize($purple_color, .5);
+    text-align: center;
+
+    &:hover,
+    &:focus {
+      border-color: $purple_color;
+    }
+  }
+
+  &__button {
+    background-color: $purple_color;
+    padding: $padding_small $padding_large;
+    font-weight: 600;
+    border: 0;
+    border-radius: $border_radius;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($purple_color, 10%);
+    }
+  }
+}

@@ -1,1 +1,1 @@
-export const GITHUB_TOKEN: string = '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'
+export const GITHUB_TOKEN = localStorage.getItem('token');
