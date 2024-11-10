@@ -1,0 +1,1 @@
+export const PAGE_REPOSITORIES_COUNT = 10

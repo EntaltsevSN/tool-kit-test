@@ -1,7 +1,14 @@
+import { RefObject } from "react";
 import { GITHUB_TOKEN } from "./token";
 
-export async function fetchDataFromGithub(query: string) {
-  await fetch('https://api.github.com/graphql', {
+export async function fetchDataFromGithub(query: string, controllerRef: RefObject<AbortController | null>) {
+  if(controllerRef?.current) controllerRef.current.abort();
+
+  controllerRef.current = new AbortController();
+  const signal: AbortSignal = controllerRef.current.signal;
+
+  const data = await fetch('https://api.github.com/graphql', {
+    signal,
     method: 'POST',
     headers: {
       Authorization: `bearer ${GITHUB_TOKEN}`,
@@ -10,5 +17,13 @@ export async function fetchDataFromGithub(query: string) {
     body: JSON.stringify({ query })
   })
     .then(response => response.json())
-    .then(data => console.log('data', data))
+    .then(({ data }) => {
+      if(data?.viewer) return data.viewer.repositories.nodes;
+      if(data?.search) return data.search.nodes;
+      if(data?.repositoryOwner) return data.repositoryOwner.repositories.nodes;
+
+      return data.repository;
+    })
+
+  return data;
 } 

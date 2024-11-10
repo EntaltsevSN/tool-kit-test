@@ -2,21 +2,24 @@ export function getViewerRepositoriesQuery() {
   return `query {
     viewer {
       name
-      repositories(last: 10) {
+      repositories(last: 100) {
         nodes {
           name
           stargazerCount
           updatedAt
           url
+          owner {
+            login
+          }
         }
       }
     }
   }`
-}
+};
 
 export function getSearchRepositoriesQuery(search: string) {
   return `query {
-    search(query: "${search}", type:REPOSITORY, last: 10) {
+    search(query: "${search}", type:REPOSITORY, last: 100) {
       repositoryCount
     	nodes {
         ... on Repository {
@@ -24,11 +27,14 @@ export function getSearchRepositoriesQuery(search: string) {
           stargazerCount
           updatedAt
           url
+          owner {
+            login
+          }
         }
       }
     }
   }`
-}
+};
 
 export function getRepositoriesByUserNameQuery(login: string) {
   return `query {
@@ -36,14 +42,17 @@ export function getRepositoriesByUserNameQuery(login: string) {
     repositories(last: 100) {
       nodes {
         name
-          stargazerCount
-          updatedAt
-          url
+        stargazerCount
+        updatedAt
+        url
+        owner {
+          login
+        }
       }
     }
   }
   }`
-}
+};
 
 export function getRepositoryByOwnerAndNameQuery(owner: string, name: string) {
   return `query {
@@ -51,7 +60,7 @@ export function getRepositoryByOwnerAndNameQuery(owner: string, name: string) {
     	name
     	stargazerCount
     	updatedAt
-    	languages(first: 10) {
+    	languages(last: 100) {
         nodes {
           ... on Language {
             name
@@ -64,4 +73,4 @@ export function getRepositoryByOwnerAndNameQuery(owner: string, name: string) {
       }
   	}
   }`
-}
+};

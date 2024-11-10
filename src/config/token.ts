@@ -1,1 +1,1 @@
-export const GITHUB_TOKEN: string = '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'
+export const GITHUB_TOKEN: string = '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'
