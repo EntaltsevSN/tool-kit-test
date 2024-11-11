@@ -11,8 +11,10 @@ const Header = () => {
 
     {
       pathname.includes('/repository')
-      ? <Link to='/'>Вернуться на главную, чтобы продолжить поиск</Link>
-      : <Form />
+        ? <Link to='/'>Вернуться на главную, чтобы продолжить поиск</Link>
+        : localStorage.getItem('token') === null
+          ? 'Поиск по репозиториям будет доступен после ввода правильного токена'
+          : <Form />
     }
   </header>
 };

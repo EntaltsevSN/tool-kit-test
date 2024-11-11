@@ -245,6 +245,10 @@ a {
 }
 
 .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc($gap / 2);
   background-color: transparentize($purple_color, .9);
   padding: $padding_large;
   border-radius: $border_radius;
