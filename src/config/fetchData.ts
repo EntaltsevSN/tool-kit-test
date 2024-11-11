@@ -1,7 +1,7 @@
-import { RefObject } from "react";
+import { MutableRefObject } from "react";
 import { GITHUB_TOKEN } from "./token";
 
-export async function fetchDataFromGithub(query: string, controllerRef: RefObject<AbortController | null>) {
+export async function fetchDataFromGithub(query: string, controllerRef: MutableRefObject<AbortController | null>) {
   if(controllerRef?.current) controllerRef.current.abort();
 
   controllerRef.current = new AbortController();
@@ -18,8 +18,10 @@ export async function fetchDataFromGithub(query: string, controllerRef: RefObjec
   })
     .then(response => response.json())
     .then(({ data }) => {
+      console.log('d', data)
       if(data?.viewer) return data.viewer.repositories.nodes;
       if(data?.search) return data.search.nodes;
+      if(data?.repositoryOwner) return [];
       if(data?.repositoryOwner) return data.repositoryOwner.repositories.nodes;
 
       return data.repository;

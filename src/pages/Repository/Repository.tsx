@@ -1,30 +1,28 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
-import StarIcon from '../../assets/star.svg?react'
+import starIcon from '../../assets/star.svg'
 import useStore from '../../config/store';
 import { fetchDataFromGithub } from '../../config/fetchData';
 import { Link, useLocation } from 'react-router-dom';
 import { getRepositoryByOwnerAndNameQuery } from '../../config/queries';
 
 const Repository = () => {
-  const controllerRef: MutableRefObject<AbortController | undefined> = useRef<AbortController>()
-  const store = useStore((state) => state)
-  const {repository, updateRepository, isLoading, updateIsLoading } = store
-  const repositoryData = useLocation().pathname.split('/')[2].split('==')
-
-  console.log(repository, repositoryData)
+  const controllerRef: MutableRefObject<AbortController | null> = useRef<AbortController | null>(null);
+  const store = useStore((state) => state);
+  const {repository, updateRepository, isLoading, updateIsLoading } = store;
+  const repositoryData = useLocation().pathname.split('/')[2].split('==');
 
   async function loadRepositoryData() {
-    updateIsLoading(true)
-    const fetchedData = await fetchDataFromGithub(getRepositoryByOwnerAndNameQuery(repositoryData[0], repositoryData[1]), controllerRef)
-    updateRepository(fetchedData)
-    updateIsLoading(false)
-  }
+    updateIsLoading(true);
+    const fetchedData = await fetchDataFromGithub(getRepositoryByOwnerAndNameQuery(repositoryData[0], repositoryData[1]), controllerRef);
+    updateRepository(fetchedData);
+    updateIsLoading(false);
+  };
 
   useEffect(() => {
-    loadRepositoryData()
+    loadRepositoryData();
 
-    return () => updateIsLoading(true)
-  }, [])
+    return () => updateIsLoading(true);
+  }, []);
   
   return isLoading || repository === null
     ? 'Загружаем репозиторий...'
@@ -36,7 +34,7 @@ const Repository = () => {
         <h2 className="repository__title">{ repository.name }</h2>
       </header>
       <div className="repository__stars">
-        <StarIcon /> { repository.stargazerCount }
+        <img src={starIcon} alt="" /> { repository.stargazerCount }
       </div>
       <div className="repository__description">
         Последнее обновление: { new Date(repository.updatedAt).toLocaleDateString() }

@@ -4,7 +4,7 @@ import TokenForm from "../../components/TokenForm";
 import useStore from "../../config/store";
 
 const Home = () => {  
-  const { isLoading } = useStore((state) => state)
+  const { isLoading } = useStore((state) => state);
   
   return localStorage.getItem('token') === null
     ? <TokenForm />

@@ -2,14 +2,14 @@ import { useSearchParams } from "react-router-dom";
 import useStore from "../../config/store";
 
 const PaginationItem = ({ index }: { index: number }) => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const { page, updatePage } = useStore((state) => state)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { page, updatePage } = useStore((state) => state);
 
-  function updateCurrentPage(index) {
+  function updateCurrentPage(index: number) {
     const page = index + 1;
     updatePage(page);
-    updatePageInSearchParams(page)
-  }
+    updatePageInSearchParams(page);
+  };
 
   function updatePageInSearchParams(page: number) {
     if (page === 1) {
@@ -18,9 +18,9 @@ const PaginationItem = ({ index }: { index: number }) => {
         setSearchParams(searchParams);
       }
     } else {
-      setSearchParams({ page });
+      setSearchParams({ page: String(page) });
     }
-  }
+  };
   
   return <li className={`pagination__item ${(index + 1) === page && 'pagination__item--active'}`}>
     <a className="pagination__link" onClick={() => updateCurrentPage(index)}>{ index + 1 }</a>

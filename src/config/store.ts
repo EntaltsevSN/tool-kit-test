@@ -1,28 +1,29 @@
-import { create } from 'zustand';
+import { create, StoreApi, UseBoundStore } from 'zustand';
+import { IStoreMethods, IOwnerRepositoryProps, ISearchRepositoryProps } from './interfaces';
 
-const useStore = create((set) => ({
+const useStore: UseBoundStore<StoreApi<IStoreMethods>> = create((set) => ({
   repositoriesData: null,
-  updateRepositoriesData(repositoriesData: unknown, type: string) {
-    set((state: object) => ({ ...state, repositoriesData: {
+  updateRepositoriesData(repositoriesData: ISearchRepositoryProps[] | undefined, type: string) {
+    set((state) => ({ ...state, repositoriesData: {
       data: repositoriesData, type
     } }))
   },
   repository: null,
-  updateRepository(repository: object) {
-    set((state: object) => ({ ...state, repository }))
+  updateRepository(repository: IOwnerRepositoryProps) {
+    set((state) => ({ ...state, repository }))
   },
   search: '',
   updateSearch(search: string) {
-    set((state: object) => ({ ...state, search }))
+    set((state) => ({ ...state, search }))
   },
   page: 1,
   updatePage(page: number) {
-    set((state: object) => ({ ...state, page }))
+    set((state) => ({ ...state, page }))
   },
   isLoading: true,
   updateIsLoading(isLoading: boolean) {
-    set((state: object) => ({ ...state, isLoading }))
+    set((state) => ({ ...state, isLoading }))
   }
-}))
+}));
 
 export default useStore;

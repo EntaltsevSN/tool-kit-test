@@ -1,15 +1,16 @@
-import { MutableRefObject, RefObject, startTransition, useEffect, useRef, useState } from "react";
+import { MutableRefObject, startTransition, useEffect, useRef } from "react";
 import { fetchDataFromGithub } from "../config/fetchData";
 import { getRepositoriesByUserNameQuery, getSearchRepositoriesQuery, getViewerRepositoriesQuery } from "../config/queries";
 import useStore from "../config/store";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { generateSearchParams } from "../config/searchParams";
+import { IStoreMethods } from "../config/interfaces";
+import { getStringFromNull } from "../config/utilities";
 
 const Form = () => {
-  const controllerRef: MutableRefObject<AbortController | undefined> = useRef<AbortController>()
-  const store = useStore((state) => state)
-  const { updateRepositoriesData, search, updateSearch, updatePage, updateIsLoading } = store
-  const [searchParams, setSearchParams] = useSearchParams()
+  const controllerRef: MutableRefObject<AbortController | null> = useRef<AbortController | null>(null);
+  const store = useStore((state) => state);
+  const { updateRepositoriesData, search, updateSearch, updatePage, updateIsLoading }: IStoreMethods = store;
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   
   function updateSearchInSearchParams(search: string) {
@@ -23,13 +24,13 @@ const Form = () => {
     if (searchParams.has('search') && !search.length) {
       searchParams.delete('search');
       setSearchParams(searchParams);
-      navigate('/')
+      navigate('/');
     }
     setSearchParams({ search });
   }
 
-  function getQueryDataBySearch(search: string | null) {
-    const clearedSearch = search === null ? '' : search.trim();
+  function getQueryDataBySearch(search: string) {
+    const clearedSearch = search.trim();
 
     if(!clearedSearch.length) {
       return {
@@ -49,29 +50,29 @@ const Form = () => {
     }
   }
 
-  async function updateRepositoriesDataInStore(search: string | null) {
-    updateIsLoading(true)
-    const fetchedData = await fetchDataFromGithub(getQueryDataBySearch(search).callback, controllerRef)
+  async function updateRepositoriesDataInStore(search: string) {
+    updateIsLoading(true);
+    const fetchedData = await fetchDataFromGithub(getQueryDataBySearch(search).callback, controllerRef);
     startTransition(() => {
-      updateRepositoriesData(fetchedData, getQueryDataBySearch(search).type)
-      updateIsLoading(false)
-    })
+      updateRepositoriesData(fetchedData, getQueryDataBySearch(search).type);
+      updateIsLoading(false);
+    });
   }
 
   async function reloadDataOnChangeSearch(search: string) {
-    updateSearchInSearchParams(search)
-    updateSearch(search)
-    updatePage(1)
-    await updateRepositoriesDataInStore(search)
+    updateSearchInSearchParams(search);
+    updateSearch(search);
+    updatePage(1);
+    await updateRepositoriesDataInStore(search);
   }
 
   useEffect(() => {
-    const search: string | null = searchParams.has('search') ? searchParams.get('search') : ''
-    updateSearch(search)
-    updateRepositoriesDataInStore(search)
+    const search: string | null = searchParams.has('search') ? getStringFromNull(searchParams.get('search')) : '';
+    updateSearch(search);
+    updateRepositoriesDataInStore(search);
 
-    return () => updateIsLoading(true)
-  }, [])
+    return () => updateIsLoading(true);
+  }, []);
 
   return <form action="" className="form">
     <label className="form__label">Найди нужный репозиторий или автора</label>
@@ -79,7 +80,7 @@ const Form = () => {
       className="form__input" 
       type="search" 
       placeholder="Введите ключевые слова или имя автора, начиная с @"
-      value={search === null ? '' : search}
+      value={search}
       onChange={e => reloadDataOnChangeSearch(e.target.value)}
     />
     <div className="form__helper">

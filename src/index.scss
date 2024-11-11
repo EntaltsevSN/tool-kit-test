@@ -290,5 +290,10 @@ a {
     &:hover {
       background-color: darken($purple_color, 10%);
     }
+
+    &:disabled {
+      pointer-events: none;
+      opacity: .5;
+    }
   }
 }
